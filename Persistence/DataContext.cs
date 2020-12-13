@@ -9,6 +9,8 @@ namespace Persistence
 
         public DbSet<Post> Posts {get; set;}
 
+        public DbSet<Car> Cars {get; set;}
+
         public DataContext(DbContextOptions  options) : base(options){
 
         }

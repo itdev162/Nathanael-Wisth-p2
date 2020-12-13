@@ -21,6 +21,17 @@ namespace Persistence
 
                 context.SaveChanges();
             }
+
+            if(context.Cars.Count() ==0){
+                List<Car> seedCars = new List<Car>{
+                    new Car() {Year=1999, Make="Toyota", Model="Corolla"},
+                    new Car() {Year=2002, Make="Honda", Model="Civic"},
+                    new Car() {Year=2020, Make="Mazda", Model="MX-5"},
+                };
+
+                context.Cars.AddRange(seedCars);
+                context.SaveChanges();
+            }
         }
     }
 }

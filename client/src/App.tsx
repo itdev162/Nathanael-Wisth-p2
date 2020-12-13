@@ -2,22 +2,22 @@ import React from 'react';
 import './App.css';
 import axios from 'axios';
 import { BrowserRouter as Router, Switch, Route, Link } from 'react-router-dom';
-import PostList from './components/PostList/PostList';
-import Post from './components/Post/Post';
-import CreatePost from './components/Post/CreatePost';
-import EditPost from './components/Post/EditPost';
+import CarList from './components/CarList/CarList';
+import Car from './components/Car/Car';
+import CreateCar from './components/Car/CreateCar';
+import EditCar from './components/Car/EditCar';
 
 class App extends React.Component {
   state = {
-    posts: [],
-    post: null
+    cars: [],
+    car: null
   }
 
   componentDidMount(){
     axios.get('http://localhost:5000/api/posts')
       .then((response) => {
         this.setState({
-          posts: response.data
+          cars: response.data
         });
       })
       .catch((error) => {
@@ -25,50 +25,50 @@ class App extends React.Component {
       });
   }
 
-  viewPost = (post) => {
-    console.log(`view ${post.title}`);
+  viewCar = (car) => {
+    console.log(`view ${car.title}`);
     this.setState({
-      post: post
+      car: car
     });
   }
 
-  deletePost = post => {
+  deleteCar = car => {
     axios
-      .delete(`http://localhost:5000/api/posts/${post.id}`)
+      .delete(`http://localhost:5000/api/posts/${car.id}`)
       .then(response => {
-        const newPosts = this.state.posts.filter(p => p.id !== post.id);
+        const newCars = this.state.cars.filter(p => p.id !== car.id);
         this.setState({
-          posts: [...newPosts]
+          cars: [...newCars]
         });
       })
       .catch(error => {
-        console.error(`Error deleting post: ${error}`);
+        console.error(`Error deleting car: ${error}`);
       });
   };
 
-  editPost = post => {
+  editCar = car => {
     this.setState({
-      post: post
+      car: car
     });
   };
 
-  onPostCreated = post => {
-    const newPosts = [...this.state.posts, post];
+  onCarCreated = car => {
+    const newCars = [...this.state.cars, car];
 
     this.setState({
-      posts: newPosts
+      cars: newCars
     });
   };
 
-  onPostUpdated = post => {
-    console.log('updated post: ', post);
-    const newPosts = [...this.state.posts];
-    const index = newPosts.findIndex(p => p.id === post.id);
+  onCarUpdated = car => {
+    console.log('updated car: ', car);
+    const newCars = [...this.state.cars];
+    const index = newCars.findIndex(p => p.id === car.id);
 
-    newPosts[index] = post;
-
+    newCars[index] = car;
+    
     this.setState({
-      posts: newPosts
+      cars: newCars
     });
   };
 
@@ -76,29 +76,29 @@ class App extends React.Component {
     return (
       <Router>
         <div className="App">
-          <header className="App-header">Blogbox</header>
+          <header className="App-header">CarList</header>
           <nav>
             <Link to="/">Home</Link>
-            <Link to="/new-post">New Post</Link>
+            <Link to="/new-post">New Car</Link>
           </nav>
           <main className="App-content">
             <Switch>
               <Route exact path="/">
-                <PostList
-                  posts={this.state.posts}
-                  clickPost={this.viewPost}
-                  deletePost={this.deletePost}
-                  editPost={this.editPost}
-                  />
+                <CarList
+                  cars={this.state.cars}
+                  clickCar={this.viewCar}
+                  deleteCar={this.deleteCar}
+                  editCar={this.editCar}
+                />
               </Route>
               <Route path="/posts/:postId">
-                <Post post={this.state.post} />
+                <Car car={this.state.car}/>
               </Route>
               <Route path="/new-post">
-                <CreatePost onPostCreated={this.onPostCreated}/>
+                <CreateCar onCarCreated={this.onCarCreated}/>
               </Route>
               <Route path="/edit-post/:postId">
-                <EditPost post={this.state.post} onPostUpdated={this.onPostUpdated} />
+                <EditCar car={this.state.car} onCarUpdated={this.onCarUpdated}/>
               </Route>
             </Switch>
           </main>

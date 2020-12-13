@@ -10,15 +10,15 @@ namespace Application.Posts
 {
     public class List
     {
-        public class Query : IRequest<List<Post>>{}
+        public class Query : IRequest<List<Car>>{}
 
-        public class Handler : IRequestHandler<Query, List<Post>>{
+        public class Handler : IRequestHandler<Query, List<Car>>{
             private readonly DataContext context;
 
             public Handler(DataContext context) => this.context = context;
 
-            public Task<List<Post>> Handle(Query request, CancellationToken cancellationToken){
-                return this.context.Posts.ToListAsync();
+            public Task<List<Car>> Handle(Query request, CancellationToken cancellationToken){
+                return this.context.Cars.ToListAsync();
             }
         }
     }

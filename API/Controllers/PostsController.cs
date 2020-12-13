@@ -22,48 +22,48 @@ namespace API.Controllers
             this.context = context;
         }
 
-        public async Task<ActionResult<List<Post>>> List(){
+        public async Task<ActionResult<List<Car>>> List(){
             return await this.mediator.Send(new List.Query());
         }
 
         /// <summary>
         /// GET api/posts
         /// </summary>
-        /// <returns>A list of posts</returns>
+        /// <returns>A list of cars</returns>
         [HttpGet]
-        public ActionResult<List<Post>> Get(){
-            return this.context.Posts.ToList();
+        public ActionResult<List<Car>> Get(){
+            return this.context.Cars.ToList();
         }
 
         /// <summary>
         /// GET api/post/[id]
         /// </summary>
-        /// <param name="id">Post id</param>
-        /// <returns>A single post</returns>
+        /// <param name="id">Car id</param>
+        /// <returns>A single car</returns>
         [HttpGet("{id}")]
-        public ActionResult<Post> GetById(Guid id){
-            return this.context.Posts.Find(id);
+        public ActionResult<Car> GetById(Guid id){
+            return this.context.Cars.Find(id);
         }
 
         /// <summary>
         /// POST api/post
         /// </summary>
-        ///<param names="request">JSON request containing post fields</param>
-        /// <returns>A new post</returns>
+        ///<param names="request">JSON request containing car fields</param>
+        /// <returns>A new car</returns>
         [HttpPost]
-        public ActionResult<Post> Create([FromBody]Post request){
-            var post = new Post{
+        public ActionResult<Car> Create([FromBody]Car request){
+            var car = new Car{
                 Id = request.Id,
-                Title = request.Title,
-                Body = request.Body,
-                Date = request.Date
+                Year = request.Year,
+                Make = request.Make,
+                Model = request.Model
             };
 
-            context.Posts.Add(post);
+            context.Cars.Add(car);
             var success = context.SaveChanges() > 0;
 
             if(success){
-                return post;
+                return car;
             }
 
             throw new Exception("Error creating post");
@@ -72,24 +72,24 @@ namespace API.Controllers
         /// <summary>
         /// POST api/post
         /// </summary>
-        ///<param names="request">JSON request containing one or more updated post fields</param>
-        /// <returns>An updated post</returns>
+        ///<param names="request">JSON request containing one or more updated car fields</param>
+        /// <returns>An updated car</returns>
         [HttpPut]
-        public ActionResult<Post> Update([FromBody]Post request){
-            var post = context.Posts.Find(request.Id);
+        public ActionResult<Car> Update([FromBody]Car request){
+            var car = context.Cars.Find(request.Id);
 
-            if(post==null){
+            if(car==null){
                 throw new Exception("Could not find post");
             }
 
-            post.Title = request.Title != null ? request.Title: post.Title;
-            post.Body = request.Body != null ? request.Body : post.Body;
-            post.Date = request.Date != null ? request.Date : post.Date;
+            car.Year = request.Year != null ? request.Year: car.Year;
+            car.Make = request.Make != null ? request.Make : car.Make;
+            car.Model = request.Model != null ? request.Model : car.Model;
 
             var success = context.SaveChanges() > 0;
 
             if(success){
-                return post;
+                return car;
             }
 
             throw new Exception("Error updating post");
@@ -97,13 +97,13 @@ namespace API.Controllers
 
         [HttpDelete("{id}")]
         public ActionResult<bool> Delete(Guid id){
-            var post = context.Posts.Find(id);
+            var car = context.Cars.Find(id);
 
-            if(post == null){
+            if(car == null){
                 throw new Exception("Could not find post");
             }
 
-            context.Remove(post);
+            context.Remove(car);
 
             var success = context.SaveChanges() > 0;
 

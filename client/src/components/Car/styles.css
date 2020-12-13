@@ -1,12 +1,12 @@
-.form-container{
+.form-container {
     display: flex;
     flex-direction: column;
     max-width: 500px;
     margin: 0 auto;
 }
 
-.form-container textarea {
-    margin: 10px 0;
+.form-container input {
+    margin: 15px 0;
 }
 
 .form-container button {

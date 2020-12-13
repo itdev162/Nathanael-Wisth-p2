@@ -1,0 +1,25 @@
+.carListItem{
+    padding: 20px;
+    border: solid 1px #666666;
+}
+
+.carListItem:hover{
+    background-color: #cccccc;
+    border-color: #333333;
+    cursor: pointer;
+}
+
+.carListItem p {
+    max-width: 500px;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
+.carControls {
+    margin: 10px;
+}
+
+.carControls button {
+    margin-left: 10px;
+}
